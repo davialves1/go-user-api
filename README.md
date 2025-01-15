@@ -2,6 +2,8 @@
 
 This project is a simple RESTful API built using the **Go programming language** with the **Gin framework** and **PostgreSQL** as the database. It provides functionality for managing technical users, including creating and retrieving user data.
 
+**This dummy project is part of my learning Go path**
+
 ---
 
 ## Features
@@ -168,7 +170,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contributors
 
-- [Your Name](https://github.com/your-github)
+- [Davi Alves](https://github.com/davialves1)
 
 ---
 
