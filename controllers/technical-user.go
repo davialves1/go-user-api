@@ -8,6 +8,14 @@ import (
 	"strings"
 )
 
+// GetTechnicalUser
+// Search for technical users based on a query provided by the user.
+//
+// Parameters:
+//   - gin.Context: c
+//
+// Returns:
+//   - TechnicalUser: The first result
 func GetTechnicalUser(c *gin.Context) {
 	var technicalUser models.TechnicalUser
 	result := config.DB.First(&technicalUser)
@@ -21,7 +29,6 @@ func GetTechnicalUser(c *gin.Context) {
 func SearchForTechnicalUser(c *gin.Context) {
 	query := c.Query("query")
 	query = strings.ToLower(query)
-
 	// Handle empty search
 	if query == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -29,28 +36,15 @@ func SearchForTechnicalUser(c *gin.Context) {
 		})
 		return
 	}
-
 	var technicalUsers []models.TechnicalUser
-	config.DB.Find(&technicalUsers)
-	// Perform search
-	for _, v := range technicalUsers {
-		if searchTechnicalUser(query, &v) {
-			c.JSON(http.StatusOK, gin.H{
-				"data": v,
-			})
-			return
-		}
+	query = "%" + query + "%"
+	err := config.DB.Where("Email ILIKE ? OR Name ILIKE ?", query, query).Find(&technicalUsers).Error
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
 	}
-
-	// Returns null if it doesn't find anything
-	c.JSON(http.StatusOK, gin.H{
-		"data": nil,
-	})
-}
-
-func searchTechnicalUser(query string, user *models.TechnicalUser) bool {
-	return strings.Contains(strings.ToLower(user.Name), query) ||
-		strings.Contains(strings.ToLower(user.Email), query) ||
-		strings.Contains(strings.ToLower(user.Gid), query) ||
-		strings.Contains(strings.ToLower(user.ID.String()), query)
+	c.JSON(http.StatusOK, technicalUsers[0])
+	return
 }
