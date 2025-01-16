@@ -29,8 +29,8 @@ To run this project, you need:
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/your-repo/technical-user-api.git
-cd technical-user-api
+git clone https://github.com/davialves1/go-user-api
+cd go-user-api
 ```
 
 ### Configure the Environment
