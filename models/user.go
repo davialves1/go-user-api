@@ -14,3 +14,12 @@ type TechnicalUser struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 	DeletedAt time.Time `json:"deletedAt"`
 }
+
+func (t TechnicalUser) New(email string, name string, gid string) TechnicalUser {
+	return TechnicalUser{
+		ID:    uuid.New(),
+		Gid:   gid,
+		Email: email,
+		Name:  name,
+	}
+}

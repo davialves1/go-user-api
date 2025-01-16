@@ -9,13 +9,9 @@ import (
 )
 
 // GetTechnicalUser
-// Search for technical users based on a query provided by the user.
-//
-// Parameters:
-//   - gin.Context: c
-//
-// Returns:
-//   - TechnicalUser: The first result
+// Get the first user on the database
+// Returns
+//   - models.TechnicalUser: Technical User
 func GetTechnicalUser(c *gin.Context) {
 	var technicalUser models.TechnicalUser
 	result := config.DB.First(&technicalUser)
@@ -26,6 +22,14 @@ func GetTechnicalUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": technicalUser})
 }
 
+// SearchForTechnicalUser
+// Search for technical users based on a query provided by the user.
+//
+// Parameters:
+//   - gin.Context: c
+//
+// Returns:
+//   - TechnicalUser: The first result
 func SearchForTechnicalUser(c *gin.Context) {
 	query := c.Query("query")
 	query = strings.ToLower(query)
