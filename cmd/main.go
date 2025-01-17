@@ -1,15 +1,20 @@
 package main
 
 import (
-	"example/server/config"
-	"example/server/controllers"
-	"example/server/models"
 	"fmt"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"user/server/config"
+	"user/server/controllers"
+	"user/server/models"
 )
 
 func main() {
+	// Test
+	var user models.User
+	user = user.New("Name", "Test")
+	fmt.Printf("User: %v", user.CreatedAt)
+
 	server := gin.Default()
 	setupServer(server)
 	setupDataBase()
@@ -21,7 +26,7 @@ func main() {
 
 func setupDataBase() {
 	config.ConnectDatabase()
-	err := config.DB.AutoMigrate(&models.TechnicalUser{})
+	err := config.DB.AutoMigrate(&models.User{})
 	if err != nil {
 		fmt.Printf("Failed to create tables")
 	}
@@ -40,9 +45,10 @@ func addCorsConfig(server *gin.Engine) {
 }
 
 func addRouters(server *gin.Engine) {
-	server.GET("/technical-user", controllers.GetTechnicalUser)
-	server.GET("/technical-user/search", controllers.SearchForTechnicalUser)
-	server.POST("/technical-user", controllers.CreateTechnicalUser)
+	server.GET("/technical-user", controllers.GetUser)
+	server.GET("/technical-user/all", controllers.GetAllUsers)
+	server.GET("/technical-user/search", controllers.SearchForUser)
+	server.POST("/technical-user", controllers.CreateUser)
 }
 
 func addProxies(server *gin.Engine) {

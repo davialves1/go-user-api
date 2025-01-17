@@ -1,26 +1,23 @@
 package controllers
 
 import (
-	"example/server/config"
-	"example/server/models"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"net/http"
-	"time"
+	"user/server/config"
+	"user/server/models"
 )
 
-func CreateTechnicalUser(c *gin.Context) {
-	var techUser models.TechnicalUser
-	err := c.ShouldBindJSON(&techUser)
+func CreateUser(c *gin.Context) {
+	var request models.UserRequest
+	err := c.ShouldBindJSON(&request)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	techUser.ID = uuid.New()
-	techUser.CreatedAt = time.Now()
-	result := config.DB.Create(&techUser)
+	var user models.User
+	user.New(request.Email, request.Name)
+	result := config.DB.Create(&user)
 	if result.Error != nil {
 		fmt.Printf("Failed to create new technical user. %v", result.Error)
 		c.JSON(http.StatusInternalServerError,
@@ -30,5 +27,5 @@ func CreateTechnicalUser(c *gin.Context) {
 			})
 		return
 	}
-	c.JSON(http.StatusOK, techUser)
+	c.JSON(http.StatusOK, user.ToDto())
 }

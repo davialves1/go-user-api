@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type TechnicalUser struct {
+type User struct {
 	ID        uuid.UUID `json:"id" gorm:"type:uuid;primaryKey"`
 	Gid       string    `json:"gid"`
 	Email     string    `json:"email"`
@@ -15,11 +15,32 @@ type TechnicalUser struct {
 	DeletedAt time.Time `json:"deletedAt"`
 }
 
-func (t TechnicalUser) New(email string, name string, gid string) TechnicalUser {
-	return TechnicalUser{
-		ID:    uuid.New(),
-		Gid:   gid,
-		Email: email,
-		Name:  name,
+func (User) New(email string, name string) User {
+	return User{
+		ID:        uuid.New(),
+		Gid:       uuid.NewString(),
+		Email:     email,
+		Name:      name,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
+}
+
+type UserDto struct {
+	ID    string `json:"id"`
+	Email string `json:"email"`
+	Name  string `json:"name"`
+}
+
+func (u User) ToDto() UserDto {
+	return UserDto{
+		ID:    u.ID.String(),
+		Email: u.Email,
+		Name:  u.Name,
+	}
+}
+
+type UserRequest struct {
+	Name  string
+	Email string
 }
