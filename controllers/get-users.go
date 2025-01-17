@@ -14,9 +14,9 @@ import (
 //   - models.User: Technical User
 func GetUser(c *gin.Context) {
 	var user models.User
-	result := config.DB.First(&user)
-	if result.Error != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
+	err := config.DB.First(&user).Error
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": user.ToDto()})
@@ -26,9 +26,9 @@ func GetUser(c *gin.Context) {
 // Get all the users from the database and map to DTO
 func GetAllUsers(c *gin.Context) {
 	var allUsers []models.User
-	result := config.DB.Find(&allUsers)
-	if result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+	err := config.DB.Find(&allUsers).Error
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	allUsersDto := make([]models.UserDto, len(allUsers))

@@ -15,7 +15,6 @@ func ConnectDatabase() {
 	if err != nil {
 		log.Fatalf("Failed to connect to the database: %v", err)
 	}
-
 	DB = db
 	fmt.Println("Database connection established.")
 }

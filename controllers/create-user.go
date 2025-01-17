@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"user/server/config"
@@ -17,13 +16,12 @@ func CreateUser(c *gin.Context) {
 	}
 	var user models.User
 	user.New(request.Email, request.Name)
-	result := config.DB.Create(&user)
-	if result.Error != nil {
-		fmt.Printf("Failed to create new technical user. %v", result.Error)
+	err = config.DB.Create(&user).Error
+	if err != nil {
 		c.JSON(http.StatusInternalServerError,
 			gin.H{
 				"error":   http.StatusInternalServerError,
-				"details": result.Error.Error(),
+				"details": err.Error(),
 			})
 		return
 	}
