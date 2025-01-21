@@ -2,19 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/gin"
 	"user/server/config"
 	"user/server/controllers"
 	"user/server/models"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// Test
-	var user models.User
-	user = user.New("Name", "Test")
-	fmt.Printf("User: %v", user.CreatedAt)
-
 	server := gin.Default()
 	setupServer(server)
 	setupDataBase()
@@ -49,6 +45,7 @@ func addRouters(server *gin.Engine) {
 	server.GET("/technical-user/all", controllers.GetAllUsers)
 	server.GET("/technical-user/search", controllers.SearchForUser)
 	server.POST("/technical-user", controllers.CreateUser)
+	server.POST("/login", controllers.Login)
 }
 
 func addProxies(server *gin.Engine) {
