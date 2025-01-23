@@ -29,18 +29,20 @@ func (User) New(email, name, hashedPassword string) User {
 	}
 }
 
-type UserDto struct {
-	ID    string `json:"id"`
-	Email string `json:"email"`
-	Name  string `json:"name"`
-}
-
 func (u User) ToDto() UserDto {
 	return UserDto{
 		ID:    u.ID.String(),
 		Email: u.Email,
 		Name:  u.Name,
+		Gid:   u.Gid,
 	}
+}
+
+type UserDto struct {
+	ID    string `json:"id"`
+	Email string `json:"email"`
+	Name  string `json:"name"`
+	Gid   string `json:"gid"`
 }
 
 type UserRequest struct {

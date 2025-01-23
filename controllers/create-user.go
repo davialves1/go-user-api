@@ -11,6 +11,7 @@ import (
 )
 
 func CreateUser(c *gin.Context) {
+	// Format request into type
 	var request models.UserRequest
 	err := c.ShouldBindJSON(&request)
 	if err != nil {
@@ -19,12 +20,14 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	// Hash Password
 	hashedPassword, err := utils.HashPassword(request.Password)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	// Search for user in the database
 	var user models.User
 	user = user.New(request.Email, request.Name, hashedPassword)
 	err = config.DB.Create(&user).Error

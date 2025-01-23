@@ -1,0 +1,3 @@
+GET http://localhost:8080/technical-user/all
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF0cmV1cy5zZXJ2aWNlQHZvbGtzd2FnZW4uZGUiLCJleHAiOjE3Mzc2MzczODYsInVzZXJJZCI6IjE3ZDQxODVlLTE0ZjctNGM1OS1hNzhkLThmYmViNDBhNTk1ZSJ9.6-jB4y4z_L3BzFPPUyVjlW6ybKpyc_Ley_Dl2oLdrio

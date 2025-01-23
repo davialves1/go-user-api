@@ -1,0 +1,8 @@
+POST http://localhost:8080/technical-user/
+Accept: application/json
+
+{
+    "name": "Atreus Admin CICD",
+    "email": "atreus.service@volkswagen.de",
+    "password": "dsa$5fHjKY43@"
+}

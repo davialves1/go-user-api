@@ -8,15 +8,24 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 	server := gin.Default()
 	setupServer(server)
 	setupDataBase()
+	loadEnvVariables()
 	err := server.Run("localhost:8080")
 	if err != nil {
 		return
+	}
+}
+
+func loadEnvVariables() {
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Failed to load JWT secret key")
 	}
 }
 
