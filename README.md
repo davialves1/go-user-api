@@ -94,11 +94,9 @@ go mod download
 
 The following endpoints are available:
 
-- **User Registration:** `POST /users/register`
-- **User Login:** `POST /users/login`
+- **User Login:** `POST /login`
+- **User Registration:** `POST /sign-up`
 - **Get User Profile:** `GET /users/{id}`
-- **Update User Profile:** `PUT /users/{id}`
-- **Delete User:** `DELETE /users/{id}`
 
 Refer to the [API Documentation](https://documenter.getpostman.com/view/6929584/2s8YzTTh9w) for detailed usage.
 
