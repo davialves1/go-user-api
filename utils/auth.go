@@ -2,9 +2,9 @@ package utils
 
 import (
 	"errors"
-	"fmt"
 	"os"
 	"time"
+	"user/server/models"
 
 	"github.com/golang-jwt/jwt"
 )
@@ -22,28 +22,35 @@ func GenerateToken(email string, userId string) (string, error) {
 	return token.SignedString([]byte(jwtKey))
 }
 
-func VerifyToken(jwtToken string) error {
+func VerifyToken(jwtToken string) (models.UserJWT, error) {
+	var user models.UserJWT
 	parsedToken, err := jwt.Parse(jwtToken, parseTokenFn)
 
 	// Verify is the parsed token is valid
 	if err != nil {
-		return errors.New("failed to parse the JWT Token")
+		return user, errors.New("failed to parse the JWT Token")
 	}
 	if !parsedToken.Valid {
-		return errors.New("failed to parse the JWT Token")
+		return user, errors.New("failed to parse the JWT Token")
 	}
 
 	// Verify if the parsed token.Claims is the type of jwt.Claims
 	claims, ok := parsedToken.Claims.(jwt.MapClaims)
 	if !ok {
-		return errors.New("parsed claims are not type jwt.Claims")
+		return user, errors.New("parsed claims are not type jwt.Claims")
 	}
 
-	// Server check of the information provided
-	email := claims["email"]
-	userId := claims["userId"]
-	fmt.Println("Email: ", email, "User Id:", userId)
-	return nil
+	email, ok := claims["email"].(string)
+	if !ok {
+		return user, errors.New("missing email from jwt claim")
+	}
+
+	id, ok := claims["userId"].(string)
+	if !ok {
+		return user, errors.New("missing id from jwt claim")
+	}
+
+	return models.UserJWT{Email: email, Id: id}, nil
 }
 
 func parseTokenFn(jwtToken *jwt.Token) (interface{}, error) {

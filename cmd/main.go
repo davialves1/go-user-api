@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"user/server/config"
 	"user/server/controllers"
+	"user/server/middlewares"
 	"user/server/models"
 
 	"github.com/gin-contrib/cors"
@@ -50,10 +51,13 @@ func addCorsConfig(server *gin.Engine) {
 }
 
 func addRouters(server *gin.Engine) {
-	server.GET("/technical-user", controllers.GetUser)
-	server.GET("/technical-user/all", controllers.GetAllUsers)
-	server.GET("/technical-user/search", controllers.SearchForUser)
-	server.POST("/technical-user", controllers.CreateUser)
+	authenticated := server.Group("/user")
+	authenticated.Use(middlewares.Authenticate)
+	authenticated.GET("/:id", controllers.GetUserById)
+	authenticated.GET("/all", controllers.GetAllUsers)
+	authenticated.GET("/search", controllers.SearchForUser)
+
+	server.POST("/sign-up", controllers.CreateUser)
 	server.POST("/login", controllers.Login)
 }
 

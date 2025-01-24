@@ -5,7 +5,6 @@ import (
 	"strings"
 	"user/server/config"
 	"user/server/models"
-	"user/server/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,9 +13,9 @@ import (
 // Get the first user on the database
 // Returns
 //   - models.User: Technical User
-func GetUser(c *gin.Context) {
+func GetUserById(c *gin.Context) {
 	var user models.User
-	err := config.DB.First(&user).Error
+	err := config.DB.Raw("Select * FROM users WHERE id = ?", c.Param("id")).Scan(&user).Error
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
@@ -27,23 +26,9 @@ func GetUser(c *gin.Context) {
 // GetAllUsers
 // Get all the users from the database and map to DTO
 func GetAllUsers(c *gin.Context) {
-	// Retrieve token from request
-	jwtToken := c.Request.Header.Get("Authorization")
-	if jwtToken == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Not authorized."})
-		return
-	}
-
-	// Verify token
-	err := utils.VerifyToken(jwtToken)
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Not authorized."})
-		return
-	}
-
 	// Fetch users from database
 	var allUsers []models.User
-	err = config.DB.Find(&allUsers).Error
+	err := config.DB.Find(&allUsers).Error
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

@@ -1,0 +1,3 @@
+GET http://localhost:8080/user/b6c272fc-2067-4404-b9a3-8fa68451ad6d
+Content-Type: application/json
+Authorization: token
