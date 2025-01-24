@@ -14,9 +14,9 @@ import (
 
 func main() {
 	server := gin.Default()
+	loadEnvVariables()
 	setupServer(server)
 	setupDataBase()
-	loadEnvVariables()
 	err := server.Run("localhost:8080")
 	if err != nil {
 		return
