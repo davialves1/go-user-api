@@ -2,6 +2,6 @@ POST http://localhost:8080/login
 Accept: application/json
 
 {
-    "email": "atreus.service@volkswagen.de",
+    "email": "email@company.com",
     "password": "dsa$5fHjKY43@"
 }
