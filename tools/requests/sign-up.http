@@ -2,7 +2,7 @@ POST http://localhost:8080/sign-up/
 Accept: application/json
 
 {
-    "name": "Atreus Admin GitHub",
-    "email": "atreus.github@volkswagen.de",
+    "name": "Admin",
+    "email": "admin@company.com",
     "password": "dsa$5fHjKY43@"
 }
